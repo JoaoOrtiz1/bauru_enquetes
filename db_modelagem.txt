@@ -1,0 +1,30 @@
+-- Tabela de Enquetes
+CREATE TABLE sys_enquete (
+    enq_co_enquete BIGSERIAL PRIMARY KEY,
+    enq_no_nome VARCHAR(60),
+    enq_in_status VARCHAR(1),
+    enq_tx_descricao VARCHAR(2000)
+);
+
+-- Tabela de Opções das Enquetes
+CREATE TABLE sys_enquete_opcoes (
+    enqo_co_opcao BIGSERIAL PRIMARY KEY,
+    enq_co_enquete BIGINT REFERENCES sys_enquete(enq_co_enquete),
+    enqo_no_opcao VARCHAR(200)
+);
+
+-- Tabela de Usuários
+CREATE TABLE sys_usuario (
+    usu_co_usuario BIGSERIAL PRIMARY KEY,
+    usu_no_nome VARCHAR(200),
+    usu_no_email VARCHAR(200)
+);
+
+-- Tabela de Votos
+CREATE TABLE sys_enquete_voto (
+    enqv_co_voto BIGSERIAL,
+    enq_co_enquete BIGINT REFERENCES sys_enquete(enq_co_enquete),
+    enqo_co_opcao BIGINT REFERENCES sys_enquete_opcoes(enqo_co_opcao),
+    usu_co_usuario BIGINT REFERENCES sys_usuario(usu_co_usuario),
+    PRIMARY KEY (enq_co_enquete, usu_co_usuario)
+);
